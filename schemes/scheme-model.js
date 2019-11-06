@@ -4,7 +4,9 @@ module.exports ={
     find,
     findById,
   findSteps,
-    add
+    add,
+    remove,
+    update
 }
 
 
@@ -35,9 +37,12 @@ function findById(id) {
 // Resolves to an array of all correctly ordered step for the given scheme: [ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ].
 // This array should include the scheme_name not the scheme_id.
 
-function findSteps(scheme_id) {
-    return db('steps')
-    .where(scheme_id)
+// select schemes.scheme_name, steps.step_number, steps.instructions from steps
+// join schemes on steps.scheme_id = schemes.id
+// order by steps.step_number;
+
+function findSteps(id) {
+    
 }
 
 
@@ -61,7 +66,17 @@ function add (scheme) {
 // Updates the scheme with the given id.
 // Resolves to the newly updated scheme object.
 
-
+function update(changes, id) {
+    return db('schemes')
+    .update(changes)
+      .where({ id })
+      .then ((resolve) =>{
+          return changes
+      })
+      
+     
+      
+  }
 
 
 // remove(id):
@@ -69,3 +84,11 @@ function add (scheme) {
 // Resolves to the removed scheme
 // Resolves to null on an invalid id.
 // (Hint: Only worry about removing the scheme. The database is configured to automatically remove all associated steps.)
+
+
+function remove(id) {
+    return db('schemes')
+      .where('id', id)
+      .del();
+  }
+
