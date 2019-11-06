@@ -21,6 +21,11 @@ function find () {
 // Resolve to a single scheme object.
 // On an invalid id, resolves to null.
 
+function findById(id) {
+    return db('schemes')
+    .where({id})
+    .first()
+}
 
 
 // findSteps(id):
