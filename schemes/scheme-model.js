@@ -2,7 +2,9 @@ const db = require('../data/db-config.js')
 
 module.exports ={
     find,
-    findById
+    findById,
+  findSteps,
+    add
 }
 
 
@@ -33,6 +35,10 @@ function findById(id) {
 // Resolves to an array of all correctly ordered step for the given scheme: [ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ].
 // This array should include the scheme_name not the scheme_id.
 
+function findSteps(scheme_id) {
+    return db('steps')
+    .where(scheme_id)
+}
 
 
 // add(scheme):
@@ -40,7 +46,15 @@ function findById(id) {
 // Inserts scheme into the database.
 // Resolves to the newly inserted scheme, including id.
 
+function add (scheme) {
+    return db('schemes')
+    .insert(scheme)
+    .then(id => {
+        return findById (id[0]);
+    })
+   
 
+}
 
 // update(changes, id):
 // Expects a changes object and an id.
