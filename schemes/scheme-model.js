@@ -37,12 +37,16 @@ function findById(id) {
 // Resolves to an array of all correctly ordered step for the given scheme: [ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ].
 // This array should include the scheme_name not the scheme_id.
 
-// select schemes.scheme_name, steps.step_number, steps.instructions from steps
+// select schemes.scheme_name, steps.step_number, steps.id, steps.instructions from steps
 // join schemes on steps.scheme_id = schemes.id
 // order by steps.step_number;
 
 function findSteps(id) {
-    
+    return db('steps')
+    .join('schemes','steps.scheme_id', '=', 'schemes.id')
+    .where('schemes.id', '=', id)
+    .select('steps.id','schemes.scheme_name', 'steps.step_number', "steps.instructions")
+    .orderBy ('steps.step_number')
 }
 
 
